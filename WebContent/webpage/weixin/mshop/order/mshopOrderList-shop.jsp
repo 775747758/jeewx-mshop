@@ -18,6 +18,7 @@
    
    <t:dgCol title="订单号"  query="true" field="code"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="微信昵称"  query="true" field="nickname"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
+   <t:dgCol title="期望送达时间"  field="receiveTime"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="收件人" query="true" field="receiverName"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="状态"  query="true" replace="待付款_0,待发货_1,待收货_2,待评价_3,已完成_4" field="status"  hidden="true"  queryMode="single"  width="120"></t:dgCol>
    <t:dgCol title="收件人手机号"  field="phone"  hidden="true"  queryMode="single"  width="120"></t:dgCol>

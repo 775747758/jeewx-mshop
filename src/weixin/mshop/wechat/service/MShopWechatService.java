@@ -229,7 +229,7 @@ public class MShopWechatService {
 		return (WeixinDispatchEntity) weixinDispatchService.getList(WeixinDispatchEntity.class).get(0);
 	}
 
-	public MshopOrderEntity submitOrder(String customerId, String storeId, String distributionMode, HttpServletRequest request, String remark) {
+	public MshopOrderEntity submitOrder(String customerId, String storeId, String distributionMode, HttpServletRequest request, String remark, String receiveTime) {
 		// 1、新建一个Order实体类
 		MshopOrderEntity order = new MshopOrderEntity();
 		// 2、查询客户实体和店铺实体
@@ -247,6 +247,7 @@ public class MShopWechatService {
 		order.setNickname(customer.getNickname());
 		order.setCreateDate(new Date());
 		order.setMessage(remark);
+		order.setReceiveTime(receiveTime);
 		// 写死（外卖类别）
 		if ("4028813a50faa03d0150faa0deaf0001".equals(store.getIdType())) {
 			order.setDistributionMode(distributionMode);
@@ -572,7 +573,7 @@ public class MShopWechatService {
 		TemplateMessageItem item5 = new TemplateMessageItem(order.getAddress() + "", "#000000");
 		TemplateMessageItem item6 = new TemplateMessageItem( "您收到了一条新的订单["+order.getStore().getStoreName()+"]。", "#000000");
 		StringBuffer remark=new StringBuffer();
-		remark.append("请尽快登陆后台处理订单！\r\n");
+		remark.append("送达时间："+order.getReceiveTime()+"\r\n");
 		remark.append("订单号："+order.getCode()+"\r\n");
 		remark.append("商品数量："+order.getTotalCount()+"\r\n");
 		remark.append("订单金额："+order.getTotalPrice()+"元\r\n");
@@ -580,7 +581,7 @@ public class MShopWechatService {
 		for(MshopOrdergoodsEntity orderGoods:order.getOrderGoodsList()){
 			remark.append(orderGoods.getGoodsName()+"x"+orderGoods.getCount()+"|");
 		}
-		TemplateMessageItem item7 = new TemplateMessageItem(remark.toString(), "#000000");
+		TemplateMessageItem item7 = new TemplateMessageItem(remark.toString().substring(0,remark.toString().length()-1), "#000000");
 		data.put("first", item6);
 		data.put("tradeDateTime", item1);
 		data.put("orderType", item2);

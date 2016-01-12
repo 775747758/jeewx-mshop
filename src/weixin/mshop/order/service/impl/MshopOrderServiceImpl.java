@@ -106,6 +106,7 @@ public class MshopOrderServiceImpl extends CommonServiceImpl implements MshopOrd
 		StringBuffer remark=new StringBuffer();
 		remark.append("其他订单信息\r\n");
 		remark.append("订单号："+order.getCode()+"\r\n");
+		remark.append("送达时间："+order.getReceiveTime());
 		remark.append("商品数量："+order.getTotalCount()+"\r\n");
 		if(order.getFreight()>0){
 			remark.append("配送费用："+order.getFreight()+"元\r\n");

@@ -5,6 +5,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <title>结算</title>
+<script src="webpage/weixin/mshop/mobile/js/xdate.js"></script>
 <link rel="stylesheet" href="webpage/weixin/plugin/agile-lite/assets/agile/css/agile.layout.css">
 <link rel="stylesheet" href="webpage/weixin/plugin/agile-lite/assets/agile/css/flat/flat.component.css">
 <link rel="stylesheet" href="webpage/weixin/plugin/agile-lite/assets/agile/css/flat/flat.color.css">
@@ -139,11 +140,17 @@ article {
 						</form>
 
 						<ul class="listitem" style="margin: 6px 0; border-top: 1px solid #e9e9e9; border-bottom: 1px solid #e9e9e9;">
-							<li style="border-bottom: 1px solid #e9e9e9;">
-								<div class="text">
-									送达时间<span style="font-weight: normal; color: #9c9c9c; font-size: 12px; float: right;">尽快送达</span>
-								</div>
-							</li>
+							<li style="border-bottom:1px solid #e9e9e9; padding-top:0px;">
+                                <table  class="text" style="width:100%;">
+                                    <tr style="overflow:hidden;">
+                                        <td id="wer" style="float:left;">期望送达时间</td>
+                                        <td style=" float:right;text-align:right;">
+                                            <select id="receiveTime" style="border:none; padding:0; color:#00afff; font-size:12px; height:20px; width:100%;">
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+					        </li>
 							<li><label for="" style="line-height: 24px;">订单备注</label> <textarea id="remark" style="height: 50px;"></textarea></li>
 						</ul>
 						<ul class="listitem" style="margin: 6px 0; border-top: 1px solid #e9e9e9; border-bottom: 1px solid #e9e9e9;">
@@ -182,6 +189,8 @@ article {
 	</div>
 	
 	<script type="text/javascript">
+		
+
 		function submitOrder(){
 			//A.alert('提示','这是一个Alert');
 			A.showMask(function(){});
@@ -191,6 +200,7 @@ article {
 					storeId : '${store.id}',
 					customerId : '${customer.id}',
 					remark: $("#remark").val(),
+					receiveTime: $("#receiveTime").val(),
 					distributionMode:$('input[type^=radio]:checked').val()
 				},
 				type : "get",
@@ -229,6 +239,28 @@ article {
 					alert("error");
 				}
 			});
+		}
+		
+		var now = new XDate();
+		var beginReal = new XDate("${store.startTime}");
+		var endReal = new XDate("${store.endTime}");
+		var begin = new XDate(now.getFullYear(), now.getMonth(), now.getDate(), beginReal.getHours(), beginReal.getMinutes(), 0, 0);
+		var end = new XDate(now.getFullYear(), now.getMonth(), now.getDate(), endReal.getHours(), endReal.getMinutes(), 0, 0);
+		window.onload=function(){
+			/* $("#receiveTime").change(function(){
+				var checkValue=$("#receiveTime").val(); //获取Select选择的Value
+				alert(checkValue);
+			});  */
+			if(now.diffMinutes(begin)<0&&now.diffMinutes(end)>0){
+			var hour=now.getHours()+1;
+			while (hour<end.getHours()){
+				$("#receiveTime").append("<option value='"+hour+":00"+" - "+hour+":30"+"' style='width:100%;'>"+hour+":00"+" - "+hour+":30"+"</option>");
+				$("#receiveTime").append("<option value='"+hour+":00"+" - "+hour+":30"+"' style='width:100%;'>"+hour+":30"+" - "+(hour+1)+":00"+"</option>");
+				hour++;
+			}
+		}else{
+			alert("no");
+		}
 		}
 	</script>
 

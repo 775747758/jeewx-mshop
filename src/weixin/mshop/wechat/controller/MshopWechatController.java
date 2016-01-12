@@ -404,11 +404,12 @@ public class MshopWechatController extends BaseController {
 	@RequestMapping(params = "submitOrder", method = RequestMethod.GET)
 	@ResponseBody
 	public void submitOrder(HttpServletRequest request, @RequestParam(value = "customerId", required = false) String customerId,
+			@RequestParam(value = "receiveTime", required = false) String receiveTime,
 			@RequestParam(value = "distributionMode", required = false) String distributionMode, @RequestParam(value = "remark", required = false) String remark,
 			@RequestParam(value = "storeId", required = false) String storeId, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		// 生成订单
-		MshopOrderEntity order = mShopWechatService.submitOrder(customerId, storeId, distributionMode, request, remark);
+		MshopOrderEntity order = mShopWechatService.submitOrder(customerId, storeId, distributionMode, request, remark,receiveTime);
 		// 生成支付请求json
 		String json = mShopWechatService.getWeChatPaymentJsonWithOrder(order, request);
 		SpringMVCUtil.print(json, response);

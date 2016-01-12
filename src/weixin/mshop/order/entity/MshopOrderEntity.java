@@ -97,6 +97,9 @@ public class MshopOrderEntity implements java.io.Serializable {
 	/**配送方式*/
 	@Excel(exportName="配送方式")
 	private java.lang.String distributionMode;
+	/**送达时间*/
+	@Excel(exportName="送达时间")
+	private java.lang.String receiveTime;
 	
 	
 	
@@ -527,6 +530,23 @@ public class MshopOrderEntity implements java.io.Serializable {
 	 */
 	public void setDistributionMode(java.lang.String distributionMode){
 		this.distributionMode = distributionMode;
+	}
+	
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  送达时间
+	 */
+	@Column(name ="RECEIVE_TIME",nullable=true,length=200)
+	public java.lang.String getReceiveTime(){
+		return this.receiveTime;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  送达时间
+	 */
+	public void setReceiveTime(java.lang.String receiveTime){
+		this.receiveTime = receiveTime;
 	}
 
 }
